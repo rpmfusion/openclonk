@@ -1,0 +1,19 @@
+--- openclonk-release-5.5.1-src/CMakeLists.txt.orig	2015-01-27 15:40:45.564376486 +0100
++++ openclonk-release-5.5.1-src/CMakeLists.txt	2015-01-27 15:41:32.949378851 +0100
+@@ -1173,7 +1173,7 @@
+ 	# Don't put this into CMAKE_CXX_FLAGS because otherwise it is cached,
+ 	# and when the path is changed both the old and new definition appears
+ 	# in the list of flags.
+-	add_definitions("-DOC_SYSTEM_DATA_DIR=\"${CMAKE_INSTALL_PREFIX}/share/games/openclonk\"")
++	add_definitions("-DOC_SYSTEM_DATA_DIR=\"${CMAKE_INSTALL_PREFIX}/share/openclonk\"")
+ endif()
+ if(OC_CXX_FLAGS)
+ 	list(REMOVE_DUPLICATES OC_CXX_FLAGS)
+@@ -1474,7 +1474,7 @@
+ 			DEPENDS c4group
+ 			VERBATIM
+ 		)
+-		install(FILES ${CMAKE_CURRENT_BINARY_DIR}/${group} DESTINATION share/games/openclonk)
++		install(FILES ${CMAKE_CURRENT_BINARY_DIR}/${group} DESTINATION share/openclonk)
+ 	endif()
+ endforeach()
