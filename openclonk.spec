@@ -1,20 +1,17 @@
 %global develdocdir %{_docdir}/%{name}-devel/html
 
 Name:           openclonk
-Version:        5.5.1
-Release:        6%{?dist}
+Version:        6.0
+Release:        1%{?dist}
 Summary:        Fast-paced 2d genre mix
-License:        ISC and CC-BY-NC
+License:        ISC and CC-BY-SA
 Url:            http://www.openclonk.org/
 Source0:        http://www.openclonk.org/builds/release/%{version}/%{name}-%{version}-src.tar.bz2
 Source1:        %{name}.appdata.xml
 Source2:        %{name}-html-de.desktop
 Source3:        %{name}-html-en.desktop
 Source4:        %{name}-docs.png
-Patch0:         %{name}-target.patch
-Patch1:         %{name}-%{version}-git-Fix-extraction-of-language-names-and-Misc.patch
-# http://sources.gentoo.org/cgi-bin/viewvc.cgi/gentoo-x86/games-action/openclonk/files/openclonk-5.5.1-tinyxml-shared.patch?view=log
-Patch2:         %{name}-%{version}-tinyxml-shared.patch
+Patch0:         %{name}-%{version}-target.patch
 BuildRequires:  boost-devel
 BuildRequires:  cmake
 BuildRequires:  gtest-devel
@@ -78,10 +75,8 @@ This package contains documentation needed for developing with %{name}.
 %prep
 %setup -q -n %{name}-release-%{version}-src
 %patch0 -p1 -b .target
-%patch1 -p1 -b .Misc
-%patch2 -p1
 
-# remove bundled tinyyml
+# remove bundled tinyxml
 rm -rf thirdparty/tinyxml
 # remove bundled getopt
 rm -rf thirdparty/getopt
@@ -102,6 +97,7 @@ chmod -x licenses/*
 
 %build
 %cmake -DUSE_STATIC_BOOST=OFF \
+       -DWITH_SYSTEM_TINYXML=ON \
        -DBUILD_SHARED_LIBS=OFF
 
 make %{?_smp_mflags}
@@ -180,6 +176,11 @@ fi
 %{_datadir}/pixmaps/%{name}-docs.png
 
 %changelog
+* Mon Mar 16 2015 Martin Gansser <martinkg@fedoraproject.org> - 6.0-1
+- Update to 6.0
+- correct %%license tag
+- cleanup spec file
+
 * Tue Feb 24 2015 Martin Gansser <martinkg@fedoraproject.org> - 5.5.1-6
 - dropped CFLAGS and CXXFLAGS flags because already sets by %%cmake macro
 - dropped CMAKE_INSTALL_PREFIX because already sets by %%cmake macro
