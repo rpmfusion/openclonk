@@ -1,17 +1,21 @@
+# https://github.com/openclonk/openclonk/commit/1ab3fdc10486b1fa8f530a0bcdfd33e5183f8f4b
 %global develdocdir %{_docdir}/%{name}-devel/html
+%global commit0  1ab3fdc10486b1fa8f530a0bcdfd33e5183f8f4b
+%global shortcommit0 %(c=%{commit0}; echo ${c:0:7})
 
 Name:           openclonk
-Version:        6.0
-Release:        1%{?dist}
+Version:        7.0
+Release:        1.git%{shortcommit0}%{?dist}
 Summary:        Fast-paced 2d genre mix
 License:        ISC and CC-BY-SA
 Url:            http://www.openclonk.org/
-Source0:        http://www.openclonk.org/builds/release/%{version}/%{name}-%{version}-src.tar.bz2
+# wget https://github.com/openclonk/openclonk/archive/1ab3fdc10486b1fa8f530a0bcdfd33e5183f8f4b/openclonk-1ab3fdc.tar.gz
+Source0:        https://github.com/openclonk/openclonk/archive/%{commit0}/%{name}-%{commit0}.tar.gz#/%{name}-%{shortcommit0}.tar.gz
 Source1:        %{name}.appdata.xml
 Source2:        %{name}-html-de.desktop
 Source3:        %{name}-html-en.desktop
 Source4:        %{name}-docs.png
-Patch0:         %{name}-%{version}-target.patch
+Patch0:         %{name}-7.0-target.patch
 BuildRequires:  boost-devel
 BuildRequires:  cmake
 BuildRequires:  gtest-devel
@@ -73,8 +77,8 @@ Requires:       xdg-utils
 This package contains documentation needed for developing with %{name}.
 
 %prep
-%setup -q -n %{name}-release-%{version}-src
-%patch0 -p1 -b .target
+%setup -qn %{name}-%{commit0}
+%patch0 -p0 -b .target
 
 # remove bundled tinyxml
 rm -rf thirdparty/tinyxml
@@ -97,7 +101,7 @@ chmod -x licenses/*
 
 %build
 %cmake -DUSE_STATIC_BOOST=OFF \
-       -DWITH_SYSTEM_TINYXML=ON \
+       -DUSE_SYSTEM_TINYXML=ON \
        -DBUILD_SHARED_LIBS=OFF
 
 make %{?_smp_mflags}
@@ -176,6 +180,13 @@ fi
 %{_datadir}/pixmaps/%{name}-docs.png
 
 %changelog
+* Sun Jan 17 2016 Martin Gansser <martinkg@fedoraproject.org> - 7.0-1git1ab3fdc
+- Update to 7.0
+- Follow https://fedoraproject.org/wiki/Packaging:SourceURL
+
+* Wed Oct 21 2015 Martin Gansser <martinkg@fedoraproject.org> - 6.1-1
+- Update to 6.1
+
 * Mon Mar 16 2015 Martin Gansser <martinkg@fedoraproject.org> - 6.0-1
 - Update to 6.0
 - correct %%license tag
