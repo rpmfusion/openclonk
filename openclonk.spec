@@ -46,6 +46,7 @@ BuildRequires:  libappstream-glib
 BuildRequires:  libxslt
 BuildRequires:  gettext
 BuildRequires:  libxml2-devel
+BuildRequires:  gtk3-devel
 Requires:       hicolor-icon-theme
 Provides:       bundled(timsort)
 Requires:       %{name}-data = %{version}-%{release}
